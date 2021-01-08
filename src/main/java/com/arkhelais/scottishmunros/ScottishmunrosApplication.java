@@ -10,5 +10,4 @@ public class ScottishmunrosApplication {
 		SpringApplication.run(ScottishmunrosApplication.class, args);
 	}
 
-
 }

@@ -21,15 +21,13 @@ public class MunroController {
   @GetMapping(value = "/munros", produces = "application/json")
   public ResponseEntity<MunroListResponse> getCustomerList(
       @RequestParam(required = false, defaultValue = "Either") String category,
-      @RequestParam(required = false) Integer minHeight,
-      @RequestParam(required = false) Integer maxHeight,
-      @RequestParam(required = false, defaultValue = "10") Integer limit,
-      @RequestParam(required = false, defaultValue = "+height") String sortBy) {
+      @RequestParam(required = false) String minHeight,
+      @RequestParam(required = false) String maxHeight,
+      @RequestParam(required = false, defaultValue = "10") String limit,
+      @RequestParam(required = false, defaultValue = "HN") String sortBy) {
 
-    final MunroListResponse munroListResponse =
-        munroFacadeService.getMunros(category, minHeight, maxHeight, limit, sortBy);
-
-    return ResponseEntity.ok(munroListResponse);
+    return ResponseEntity.ok(
+        munroFacadeService.getMunros(category, minHeight, maxHeight, limit, sortBy));
   }
 
 }

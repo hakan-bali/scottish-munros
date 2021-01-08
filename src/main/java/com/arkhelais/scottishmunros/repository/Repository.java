@@ -5,6 +5,9 @@ import java.util.List;
 
 public interface Repository {
 
-  List<Munro> findByAllParameters(String category, Integer minHeight, Integer maxHeight, Integer limit);
+  List<Munro> findByAllParameters(String category, Double minHeight, Double maxHeight,
+      Integer limit, String sortBy);
+
+  Integer getSize();
 
 }
