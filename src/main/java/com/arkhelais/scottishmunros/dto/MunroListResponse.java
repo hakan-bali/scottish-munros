@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MunroListResponse {
 
+  private Integer total;
+  private Integer filtered;
+  private Integer limit;
   private List<Munro> results;
 
 }

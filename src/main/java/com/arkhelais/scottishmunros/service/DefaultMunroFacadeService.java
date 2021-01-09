@@ -11,9 +11,7 @@ import static com.arkhelais.scottishmunros.exception.ErrorType.MAX_HEIGHT_FORMAT
 import static com.arkhelais.scottishmunros.exception.ErrorType.MIN_HEIGHT_FORMAT_INVALID;
 
 import com.arkhelais.scottishmunros.dto.MunroListResponse;
-import com.arkhelais.scottishmunros.model.Munro;
 import com.arkhelais.scottishmunros.repository.Repository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +30,7 @@ public class DefaultMunroFacadeService implements MunroFacadeService {
     checkHeightParams(minHeight, maxHeight);
     Integer limit = getLimit(limitText);
 
-    List<Munro> results = munroRepository
-        .findByAllParameters(category, minHeight, maxHeight, limit, sortBy);
-
-    return MunroListResponse.builder().results(results).build();
+    return munroRepository.findByAllParameters(category, minHeight, maxHeight, limit, sortBy);
   }
 
   private void checkCategoryParam(String category) {

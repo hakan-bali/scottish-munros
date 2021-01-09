@@ -5,8 +5,10 @@ import static com.arkhelais.scottishmunros.dto.CategoryType.MUN;
 import static com.arkhelais.scottishmunros.dto.CategoryType.TOP;
 import static com.arkhelais.scottishmunros.exception.ErrorType.SORT_PARAMETER_INVALID;
 
+import com.arkhelais.scottishmunros.dto.MunroListResponse;
 import com.arkhelais.scottishmunros.model.Munro;
 import com.opencsv.bean.CsvToBeanBuilder;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 @Slf4j
 @Service
@@ -29,8 +32,9 @@ public class MunroRepository implements Repository {
 
   private void initializeMunroRepository() {
     try {
-      CsvToBeanBuilder<Munro> csvToBeanBuilder =
-          new CsvToBeanBuilder<>(new FileReader("munrotab_v6.2.csv"));
+      File csvFile = ResourceUtils.getFile("classpath:munrotab_v6.2.csv");
+
+      CsvToBeanBuilder<Munro> csvToBeanBuilder = new CsvToBeanBuilder<>(new FileReader(csvFile));
       munroList = csvToBeanBuilder
           .withType(Munro.class)
           .build()
@@ -41,14 +45,22 @@ public class MunroRepository implements Repository {
   }
 
   @Override
-  public List<Munro> findByAllParameters(String category, Double minHeight, Double maxHeight,
+  public MunroListResponse findByAllParameters(String category, Double minHeight, Double maxHeight,
       Integer limit, String sortBy) {
-    Stream<Munro> munroStream =
-        getMaxHeightFiltered(maxHeight,
-            getMinHeightFiltered(minHeight,
-                getCategoryFilteredStream(category, munroList.stream()))).limit(limit);
-
-    return munroStream.sorted(getComparator(sortBy)).collect(Collectors.toList());
+    List<Munro> munroFilteredSortedList = getMaxHeightFiltered(maxHeight,
+        getMinHeightFiltered(minHeight,
+            getCategoryFilteredStream(category, munroList.stream())))
+        .sorted(getComparator(sortBy))
+        .collect(Collectors.toList());
+    List<Munro> munroLimitedList = munroFilteredSortedList.stream()
+        .limit(limit)
+        .collect(Collectors.toList());
+    return MunroListResponse.builder()
+        .total(munroList.size())
+        .filtered(munroFilteredSortedList.size())
+        .limit(limit)
+        .results(munroLimitedList)
+        .build();
   }
 
   private Comparator<Munro> getComparator(String sortKey) {
