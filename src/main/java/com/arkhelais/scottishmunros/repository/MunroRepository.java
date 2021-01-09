@@ -47,14 +47,16 @@ public class MunroRepository implements Repository {
   @Override
   public MunroListResponse findByAllParameters(String category, Double minHeight, Double maxHeight,
       Integer limit, String sortBy) {
-    List<Munro> munroFilteredSortedList = getMaxHeightFiltered(maxHeight,
-        getMinHeightFiltered(minHeight,
-            getCategoryFilteredStream(category, munroList.stream())))
-        .sorted(getComparator(sortBy))
-        .collect(Collectors.toList());
-    List<Munro> munroLimitedList = munroFilteredSortedList.stream()
-        .limit(limit)
-        .collect(Collectors.toList());
+    List<Munro> munroFilteredSortedList =
+        getMaxHeightFiltered(maxHeight,
+            getMinHeightFiltered(minHeight,
+                getCategoryFiltered(category, munroList.stream())))
+            .sorted(getComparator(sortBy))
+            .collect(Collectors.toList());
+    List<Munro> munroLimitedList =
+        munroFilteredSortedList.stream()
+            .limit(limit)
+            .collect(Collectors.toList());
     return MunroListResponse.builder()
         .total(munroList.size())
         .filtered(munroFilteredSortedList.size())
@@ -84,11 +86,6 @@ public class MunroRepository implements Repository {
     return finalComparator;
   }
 
-  @Override
-  public Integer getSize() {
-    return munroList.size();
-  }
-
   private Stream<Munro> getMaxHeightFiltered(Double maxHeight, Stream<Munro> munroStream) {
     if (maxHeight == null) {
       return munroStream;
@@ -105,7 +102,7 @@ public class MunroRepository implements Repository {
     }
   }
 
-  private Stream<Munro> getCategoryFilteredStream(String category, Stream<Munro> munroStream) {
+  private Stream<Munro> getCategoryFiltered(String category, Stream<Munro> munroStream) {
     if (EITHER.name().equalsIgnoreCase(category)) {
       munroStream = munroStream
           .filter(m -> m.getCategory().equalsIgnoreCase(MUN.name())

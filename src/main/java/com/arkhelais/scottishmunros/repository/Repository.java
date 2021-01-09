@@ -7,6 +7,4 @@ public interface Repository {
   MunroListResponse findByAllParameters(String category, Double minHeight, Double maxHeight,
       Integer limit, String sortBy);
 
-  Integer getSize();
-
 }
