@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ScottishmunrosApplication {
+public class ScottishMunrosApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ScottishmunrosApplication.class, args);
+		SpringApplication.run(ScottishMunrosApplication.class, args);
 	}
 
 }
