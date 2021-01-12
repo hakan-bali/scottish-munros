@@ -26,13 +26,13 @@ class ScottishMunrosApplicationTests {
 
 	@Test
 	@DisplayName("Test whether all well with application context")
-	public void contextLoads() throws Exception {
+	public void contextLoads() {
 		assertThat(munroController).isNotNull();
 	}
 
 	@Test
 	@DisplayName("Just after app is up, CSV file should be loaded into memory")
-	public void csvFileLoads() throws Exception {
+	public void csvFileLoads() {
 		MunroListResponse result = restTemplate
 				.getForObject("http://localhost:" + port + "/v1/munros", MunroListResponse.class);
 		assertThat(result.getTotal()).isEqualTo(602);
