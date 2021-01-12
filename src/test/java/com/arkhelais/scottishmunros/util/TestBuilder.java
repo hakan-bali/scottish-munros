@@ -48,12 +48,23 @@ public class TestBuilder {
         .build();
   }
 
+  public static Munro createNoCategoryMunro() {
+    return Munro.builder()
+        .id("21")
+        .category("")
+        .name("Name Not Available")
+        .height(999.0)
+        .gridReference("NN55555")
+        .build();
+  }
+
   public static MunroListResponse getResponse() {
     return MunroListResponse.builder()
         .total(4)
         .filtered(4)
         .limit(10)
-        .results(List.of(createMunro1(), createMunro2(), createMunroTop1(), createMunroTop2()))
+        .results(List.of(createMunro1(), createMunro2(), createMunroTop1(), createMunroTop2(),
+            createNoCategoryMunro()))
         .build();
   }
 
