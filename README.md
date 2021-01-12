@@ -57,8 +57,6 @@ $ ./gradlew run
 ```
 
 ---
-qaz
----
 ### Requirements Compliance Matrix
 | # | Functional Requirements | Compliance |
 | --- | --- | --- |
