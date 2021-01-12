@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -26,10 +27,7 @@ public class MunroRepository implements Repository {
 
   private List<Munro> munroList = new ArrayList<>();
 
-  public MunroRepository() {
-    initializeMunroRepository();
-  }
-
+  @PostConstruct
   private void initializeMunroRepository() {
     try {
       File csvFile = ResourceUtils.getFile("classpath:munrotab_v6.2.csv");
@@ -53,10 +51,12 @@ public class MunroRepository implements Repository {
                 getCategoryFiltered(category, munroList.stream())))
             .sorted(getComparator(sortBy))
             .collect(Collectors.toList());
+
     List<Munro> munroLimitedList =
         munroFilteredSortedList.stream()
             .limit(limit)
             .collect(Collectors.toList());
+
     return MunroListResponse.builder()
         .total(munroList.size())
         .filtered(munroFilteredSortedList.size())
@@ -69,6 +69,9 @@ public class MunroRepository implements Repository {
     Comparator<Munro> comparator = null;
     Comparator<Munro> finalComparator = null;
 
+    if (sortKey.length() > 2) {
+      throw SORT_PARAMETER_INVALID.createException();
+    }
     for (byte sortBy : sortKey.getBytes()) {
       switch (sortBy) {
         case 'H': comparator = Comparator.comparingDouble(Munro::getHeight); break;
