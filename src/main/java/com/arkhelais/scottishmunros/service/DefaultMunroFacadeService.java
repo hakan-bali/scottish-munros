@@ -25,16 +25,16 @@ public class DefaultMunroFacadeService implements MunroFacadeService {
   }
 
   public MunroListResponse getMunros(String category, String minHeightText, String maxHeightText,
-      String limitText, String sortBy) {
+      String limitText, String sort) {
 
     checkCategoryParam(category);
     Double minHeight = getMinHeight(minHeightText);
     Double maxHeight = getMaxHeight(maxHeightText);
     checkHeightParams(minHeight, maxHeight);
-    checkSortParam(sortBy);
+    checkSortParam(sort);
     Integer limit = getLimit(limitText);
 
-    return munroRepository.findByAllParameters(category, minHeight, maxHeight, limit, sortBy);
+    return munroRepository.findByAllParameters(category, minHeight, maxHeight, limit, sort);
   }
 
   private void checkSortParam(String sort) {

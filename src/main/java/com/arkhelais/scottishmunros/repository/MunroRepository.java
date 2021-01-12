@@ -44,12 +44,12 @@ public class MunroRepository implements Repository {
 
   @Override
   public MunroListResponse findByAllParameters(String category, Double minHeight, Double maxHeight,
-      Integer limit, String sortBy) {
+      Integer limit, String sort) {
     List<Munro> munroFilteredSortedList =
         getMaxHeightFiltered(maxHeight,
             getMinHeightFiltered(minHeight,
                 getCategoryFiltered(category, munroList.stream())))
-            .sorted(getComparator(sortBy))
+            .sorted(getComparator(sort))
             .collect(Collectors.toList());
 
     List<Munro> munroLimitedList =
@@ -65,14 +65,14 @@ public class MunroRepository implements Repository {
         .build();
   }
 
-  private Comparator<Munro> getComparator(String sortKey) {
+  private Comparator<Munro> getComparator(String sort) {
     Comparator<Munro> comparator;
     Comparator<Munro> finalComparator = null;
 
-    if (sortKey.length() > 2) {
+    if (sort.length() > 2) {
       throw SORT_PARAMETER_INVALID.createException();
     }
-    for (byte sortBy : sortKey.getBytes()) {
+    for (byte sortBy : sort.getBytes()) {
       switch (sortBy) {
         case 'H': comparator = Comparator.comparingDouble(Munro::getHeight); break;
         case 'h': comparator = Comparator.comparingDouble(Munro::getHeight).reversed(); break;

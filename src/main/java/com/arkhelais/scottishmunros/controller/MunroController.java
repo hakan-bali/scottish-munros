@@ -24,10 +24,10 @@ public class MunroController {
       @RequestParam(required = false) String minHeight,
       @RequestParam(required = false) String maxHeight,
       @RequestParam(required = false, defaultValue = "10") String limit,
-      @RequestParam(required = false, defaultValue = "HN") String sortBy) {
+      @RequestParam(required = false, defaultValue = "HN") String sort) {
 
     return ResponseEntity.ok(
-        munroFacadeService.getMunros(category, minHeight, maxHeight, limit, sortBy));
+        munroFacadeService.getMunros(category, minHeight, maxHeight, limit, sort));
   }
 
 }
