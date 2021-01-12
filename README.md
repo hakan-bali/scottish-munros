@@ -1,5 +1,5 @@
 # Overview
-This project has been developed with Java 11 source code compatibility to provide a simple API set for querying Scottish Munros given within a CSV formattd file.
+This project has been developed with Java 11 source code compatibility to provide a simple API set for querying Scottish Munros given within a CSV formatted file.
 
 ---
 ## Pre-requisites for the project
@@ -59,7 +59,7 @@ $ ./gradlew run
 ---
 ## Sample Usage
 ---
-Receive all munros with category field is MUN, TOP, or EITHER.
+Receive all munros with category field is 'MUN' or 'TOP'
 ```
 http://localhost:8080/v1/munros
 ```
