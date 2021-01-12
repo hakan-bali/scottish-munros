@@ -9,17 +9,20 @@ import static com.arkhelais.scottishmunros.exception.ErrorType.LIMIT_FORMAT_INVA
 import static com.arkhelais.scottishmunros.exception.ErrorType.LIMIT_MIN_VALUE_ERROR;
 import static com.arkhelais.scottishmunros.exception.ErrorType.MAX_HEIGHT_FORMAT_INVALID;
 import static com.arkhelais.scottishmunros.exception.ErrorType.MIN_HEIGHT_FORMAT_INVALID;
+import static com.arkhelais.scottishmunros.exception.ErrorType.SORT_PARAMETER_INVALID;
 
 import com.arkhelais.scottishmunros.dto.MunroListResponse;
 import com.arkhelais.scottishmunros.repository.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultMunroFacadeService implements MunroFacadeService {
 
-  @Autowired
-  private Repository munroRepository;
+  private final Repository munroRepository;
+
+  public DefaultMunroFacadeService(Repository munroRepository) {
+    this.munroRepository = munroRepository;
+  }
 
   public MunroListResponse getMunros(String category, String minHeightText, String maxHeightText,
       String limitText, String sortBy) {
@@ -28,9 +31,17 @@ public class DefaultMunroFacadeService implements MunroFacadeService {
     Double minHeight = getMinHeight(minHeightText);
     Double maxHeight = getMaxHeight(maxHeightText);
     checkHeightParams(minHeight, maxHeight);
+    checkSortParam(sortBy);
     Integer limit = getLimit(limitText);
 
     return munroRepository.findByAllParameters(category, minHeight, maxHeight, limit, sortBy);
+  }
+
+  private void checkSortParam(String sort) {
+    if (sort.length() < 1 || sort.length() > 2 ||
+        (sort.equalsIgnoreCase("hn") && sort.equalsIgnoreCase("nh"))) {
+      throw SORT_PARAMETER_INVALID.createException();
+    }
   }
 
   private void checkCategoryParam(String category) {
