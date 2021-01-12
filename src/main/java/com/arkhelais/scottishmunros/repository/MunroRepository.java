@@ -66,7 +66,7 @@ public class MunroRepository implements Repository {
   }
 
   private Comparator<Munro> getComparator(String sortKey) {
-    Comparator<Munro> comparator = null;
+    Comparator<Munro> comparator;
     Comparator<Munro> finalComparator = null;
 
     if (sortKey.length() > 2) {
@@ -93,7 +93,7 @@ public class MunroRepository implements Repository {
     if (maxHeight == null) {
       return munroStream;
     } else {
-      return munroStream.filter(m -> m.getHeight() < maxHeight);
+      return munroStream.filter(m -> m.getHeight() <= maxHeight);
     }
   }
 
@@ -101,7 +101,7 @@ public class MunroRepository implements Repository {
     if (minHeight == null) {
       return munroStream;
     } else {
-      return munroStream.filter(m -> m.getHeight() > minHeight);
+      return munroStream.filter(m -> m.getHeight() >= minHeight);
     }
   }
 
