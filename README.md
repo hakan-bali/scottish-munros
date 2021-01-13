@@ -1,5 +1,5 @@
 # Overview
-This project has been developed with Java 11 source code compatibility to provide a simple API set for querying Scottish Munros given within a CSV formattd file.
+This project has been developed with Java 11 source code compatibility to provide a simple API set for querying Scottish Munros given within a CSV formatted file.
 
 ---
 ## Pre-requisites for the project
@@ -57,7 +57,45 @@ $ ./gradlew run
 ```
 
 ---
-### Requirements Compliance Matrix
+## Sample Usage
+---
+Receive all munros with category field is 'MUN' or 'TOP'
+```
+http://localhost:8080/v1/munros
+```
+
+---
+Receive munros of category 'MUN'
+```
+http://localhost:8080/v1/munros?category=mun
+```
+
+---
+Receive munros of category 'TOP' and limit to 25 records
+```
+http://localhost:8080/v1/munros?category=Top&limit=25
+```
+
+---
+Receive munros of category 'MUN' or 'TOP' and sorted 'Name' ascending then 'Height' descending
+```
+http://localhost:8080/v1/munros?category=Either&sort=Nh
+```
+
+---
+Receive munros with a minimum height and sorted 'Name' descending then 'Height' Ascending
+```
+http://localhost:8080/v1/munros?category=Either&sort=nH
+```
+
+---
+Receive munros with a maximum height and sorted 'Height' Ascending then 'Name' Ascending
+```
+http://localhost:8080/v1/munros?category=Either&sort=HN
+```
+
+---
+## Requirements Compliance Matrix
 | # | Functional Requirements | Compliance |
 | --- | --- | --- |
 | 1 | The goal of the solution is to create a simple API which other software can use to sort and filter the munro data. | Done |
