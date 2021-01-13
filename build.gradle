@@ -32,16 +32,12 @@ repositories {
 dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-web"
 	implementation "com.opencsv:opencsv:5.3"
-	//implementation "org.mockito:mockito-junit-jupiter:3.6.28"
 
 	compileOnly "org.projectlombok:lombok"
-
-	//developmentOnly "org.springframework.boot:spring-boot-devtools"
 
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
-	//testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
 	testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
 	testImplementation "org.mockito:mockito-core:3.6.28"
 	testImplementation "org.mockito:mockito-inline:3.6.28"
